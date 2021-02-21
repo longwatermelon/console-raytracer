@@ -59,36 +59,24 @@ int main()
 		}
 
 		if (GetAsyncKeyState(VK_RIGHT) < 0)
-		{
 			pha += 0.1f;
-		}
 
 		if (GetAsyncKeyState(VK_LEFT) < 0)
-		{
 			pha -= 0.1f;
-		}
 
 		if (GetAsyncKeyState(VK_UP) < 0)
-		{
 			if (pva - 0.1f > -0.8f)
 				pva -= 0.1f;
-		}
 
 		if (GetAsyncKeyState(VK_DOWN) < 0)
-		{
 			if (pva + 0.1f < 0.8f)
 				pva += 0.1f;
-		}
 
 		if (GetAsyncKeyState(VK_SPACE) < 0)
-		{
 			py -= 0.1f;
-		}
 
 		if (GetAsyncKeyState(VK_SHIFT) < 0)
-		{
 			py += 0.1f;
-		}
 
 		for (int y = 0; y < screen_h; y++)
 		{
@@ -133,7 +121,7 @@ int main()
 				if (hit_obj)
 				{
 					char shade = ' ';
-					if (dist < render_dist / 8) shade = '#';
+					if (dist < render_dist / 8)      shade = '#';
 					else if (dist < render_dist / 7) shade = '=';
 					else if (dist < render_dist / 6) shade = ':';
 					else if (dist < render_dist / 5) shade = '.';
