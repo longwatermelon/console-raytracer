@@ -35,7 +35,7 @@ bool inside_sphere(float x, float y, float z, Sphere& s)
 int main()
 {
 	int screen_w = 120;
-	int screen_h = 30;
+	int screen_h = 50;
 
 	gfx::init(screen_w, screen_h);
 
@@ -46,9 +46,7 @@ int main()
 
 	float render_dist = 35.0F;
 
-	/*objects.push_back(Object(0.0f, 0.0f, 4.0f));
-	objects.push_back(Object(0.0f, 0.0f, 3.0f));
-	objects.push_back(Object(1.0f, 0.0f, 4.0f));*/
+	objects.push_back(Object(1.0f, -3.0f, 0.0f));
 
 	spheres.push_back(Sphere(0.0f, 0.0f, 4.0f, 2));
 	spheres.push_back(Sphere(5.0f, 2.0f, 3.0f, 3));
@@ -143,7 +141,6 @@ int main()
 					}
 				}
 				
-
 				if (hit_obj)
 				{
 					char shade = ' ';
