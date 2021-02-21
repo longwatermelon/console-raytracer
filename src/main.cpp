@@ -58,6 +58,18 @@ int main()
 			px -= sinf(pha) * 0.1f;
 		}
 
+		if (GetAsyncKeyState('A') < 0)
+		{
+			px += sinf(pha - (3.1415 / 2)) * 0.1f;
+			pz += cosf(pha - (3.1415 / 2)) * 0.1f;
+		}
+
+		if (GetAsyncKeyState('D') < 0)
+		{
+			px -= sinf(pha - (3.1415 / 2)) * 0.1f;
+			pz -= cosf(pha - (3.1415 / 2)) * 0.1f;
+		}
+
 		if (GetAsyncKeyState(VK_RIGHT) < 0)
 			pha += 0.1f;
 
