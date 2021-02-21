@@ -52,10 +52,12 @@ int main()
 	spheres.push_back(Sphere(5.0f, 2.0f, 3.0f, 3));
 	spheres.push_back(Sphere(0.0f, -1.0f, 0.0f, 1));
 	
+	int yo = 0;
+
 
 	while (true)
 	{
-		gfx::clear();
+		yo = !yo;
 
 		gfx::limit_fps(60);
 
@@ -105,27 +107,46 @@ int main()
 
 		for (int y = 0; y < screen_h; y++)
 		{
+			if ((y + yo) % 2 == 0)
+				continue;
+
+			float dist = 0.0f;
+
 			for (int x = 0; x < screen_w; x++)
 			{
-				float dist = 0.0f;
+				bool check_for_behind = false;
+
+				if (x % 2 == 0)
+					check_for_behind = true;
 
 				float rha = (pha - (fov / 2.0f)) + ((float)x / (float)screen_w) * fov;
 				float rva = (pva - (fov / 2.0f)) + ((float)y / (float)screen_h) * fov;
 
 				bool hit_obj = false;
 
+				float tx, ty, tz;
+
 				while (dist < render_dist && !hit_obj)
 				{
 					dist += 0.2f;
 
-					float tx = (float)(px + dist * sinf(rha));
-					float ty = (float)(py + dist * sinf(rva));
-					float tz = (float)(pz + dist * cosf(rha));
+					tx = (float)(px + dist * sinf(rha));
+					ty = (float)(py + dist * sinf(rva));
+					tz = (float)(pz + dist * cosf(rha));
 
 					for (Object& obj : objects)
 					{
 						if (within_x(tx, obj) && within_z(tz, obj) && within_y(ty, obj))
-						{	
+						{
+							while (within_x(tx, obj) && within_y(ty, obj) && within_z(tz, obj))
+							{
+								dist -= 0.2f;
+
+								tx = (float)(px + dist * sinf(rha));
+								ty = (float)(py + dist * sinf(rva));
+								tz = (float)(pz + dist * cosf(rha));
+							}
+
 							hit_obj = true;
 							break;
 						}
@@ -135,6 +156,15 @@ int main()
 					{
 						if (inside_sphere(tx, ty, tz, s))
 						{
+							while (inside_sphere(tx, ty, tz, s))
+							{
+								dist -= 0.2f;
+
+								tx = (float)(px + dist * sinf(rha));
+								ty = (float)(py + dist * sinf(rva));
+								tz = (float)(pz + dist * cosf(rha));
+							}
+
 							hit_obj = true;
 							break;
 						}
@@ -144,13 +174,20 @@ int main()
 				if (hit_obj)
 				{
 					char shade = ' ';
-					if (dist < render_dist / 11)      shade = '#';
+					if (dist < render_dist / 11)     shade = '#';
 					else if (dist < render_dist / 8) shade = '=';
 					else if (dist < render_dist / 6) shade = ':';
 					else if (dist < render_dist / 5) shade = '.';
 
 					gfx::draw_char(x, y, shade);
 				}
+				else
+				{
+					gfx::draw_char(x, y, ' ');
+				}
+
+				if (check_for_behind)
+					dist = 0.0f;
 			}
 		}
 
