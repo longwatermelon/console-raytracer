@@ -11,7 +11,7 @@ bool within_x(float x, Object& obj)
 
 bool within_y(float y, Object& obj)
 {
-	return (y >= obj.y && y <= obj.y + obj.yl);
+	return (y > obj.y && y < obj.y + obj.yl);
 }
 
 bool within_z(float z, Object& obj)
@@ -66,8 +66,8 @@ int main()
 
 		if (GetAsyncKeyState('D') < 0)
 		{
-			px -= sinf(pha - (3.1415 / 2)) * 0.1f;
-			pz -= cosf(pha - (3.1415 / 2)) * 0.1f;
+			px += sinf(pha + (3.1415 / 2)) * 0.1f;
+			pz += cosf(pha + (3.1415 / 2)) * 0.1f;
 		}
 
 		if (GetAsyncKeyState(VK_RIGHT) < 0)
@@ -77,11 +77,11 @@ int main()
 			pha -= 0.1f;
 
 		if (GetAsyncKeyState(VK_UP) < 0)
-			if (pva - 0.1f > -0.8f)
+			if (pva - 0.1f > -0.4f)
 				pva -= 0.1f;
 
 		if (GetAsyncKeyState(VK_DOWN) < 0)
-			if (pva + 0.1f < 0.8f)
+			if (pva + 0.1f < 0.4f)
 				pva += 0.1f;
 
 		if (GetAsyncKeyState(VK_SPACE) < 0)
@@ -112,17 +112,7 @@ int main()
 					for (Object& obj : objects)
 					{
 						if (within_x(tx, obj) && within_z(tz, obj) && within_y(ty, obj))
-						{
-							while (within_x(tx, obj) && within_y(ty, obj) && within_z(tz, obj))
-							{
-								dist -= 0.1f;
-
-								tx = (float)(px + dist * sinf(rha));
-								ty = (float)(py + dist * sinf(rva));
-								tz = (float)(pz + dist * cosf(rha));
-							}
-							dist += 0.1f;
-							
+						{	
 							hit_obj = true;
 							break;
 						}
@@ -133,7 +123,7 @@ int main()
 				if (hit_obj)
 				{
 					char shade = ' ';
-					if (dist < render_dist / 8)      shade = '#';
+					if (dist < render_dist / 10)      shade = '#';
 					else if (dist < render_dist / 7) shade = '=';
 					else if (dist < render_dist / 6) shade = ':';
 					else if (dist < render_dist / 5) shade = '.';
