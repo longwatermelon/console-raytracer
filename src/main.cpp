@@ -35,7 +35,7 @@ bool inside_sphere(float x, float y, float z, Sphere& s)
 int main()
 {
 	int screen_w = 120;
-	int screen_h = 50;
+	int screen_h = 30;
 
 	gfx::init(screen_w, screen_h);
 
@@ -120,7 +120,7 @@ int main()
 					check_for_behind = true;
 
 				float rha = (pha - (fov / 2.0f)) + ((float)x / (float)screen_w) * fov;
-				float rva = (pva - (fov / 2.0f)) + ((float)y / (float)screen_h) * fov;
+				float rva = (pva - (fov / 2.0f)) + ((float)y / (float)(screen_h + 20)) * fov;
 
 				bool hit_obj = false;
 
